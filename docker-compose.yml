@@ -1,0 +1,28 @@
+# Lokalna razvojna baza za C-Liga projekat.
+# Pokretanje:  docker compose up -d
+# Gašenje:     docker compose down        (podaci ostaju sačuvani)
+# Brisanje:    docker compose down -v     (briše i podatke!)
+#
+# Vrijednosti (ime baze, korisnik, lozinka, port) čita iz .env fajla.
+
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: cliga-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - cliga-db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  cliga-db-data:

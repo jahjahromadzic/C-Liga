@@ -8,6 +8,7 @@ use App\Enums\TournamentType;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
@@ -50,6 +51,27 @@ class Tournament extends Model
     public function groups(): HasMany
     {
         return $this->hasMany(TournamentGroup::class)->orderBy('name');
+    }
+
+    /** Team registrations for this tournament (prijave ekipa). */
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(TournamentTeam::class);
+    }
+
+    /** Teams registered for this tournament. */
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'tournament_teams')
+            ->using(TournamentTeam::class)
+            ->withPivot(['id', 'status', 'placement', 'round_reached', 'points'])
+            ->withTimestamps();
+    }
+
+    /** All players on all rosters at this tournament. */
+    public function rosterEntries(): HasMany
+    {
+        return $this->hasMany(TournamentPlayer::class);
     }
 
     public function isFinals(): bool

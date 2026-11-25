@@ -40,4 +40,19 @@ class Team extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function charges(): HasMany
+    {
+        return $this->hasMany(Charge::class);
+    }
+
+    public function pointAdjustments(): HasMany
+    {
+        return $this->hasMany(PointAdjustment::class);
+    }
+
+    public function suspensions(): HasMany
+    {
+        return $this->hasMany(Suspension::class);
+    }
 }

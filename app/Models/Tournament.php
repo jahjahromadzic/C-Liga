@@ -83,4 +83,9 @@ class Tournament extends Model
     {
         return $this->status === TournamentStatus::Approved;
     }
+
+    public function matches(): HasMany
+    {
+        return $this->hasMany(GameMatch::class)->orderBy('match_no');
+    }
 }

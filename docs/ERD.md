@@ -1,6 +1,8 @@
 # C-Liga — Database design (ERD)
 
-Status: **draft v1** — under review before migrations are written.
+Status: **v1 — implemented** in `database/migrations/2026_11_25_*`.
+
+Note: the Eloquent model for `matches` is `App\Models\GameMatch` (`match` is a reserved word in PHP).
 
 Source of rules: *Propozicije C-Lige 2026* (articles referenced as e.g. `čl. 2.6`).
 
@@ -186,7 +188,7 @@ erDiagram
         bigint team_id FK
         bigint tournament_id FK "nullable"
         int points "+ or -"
-        string reason "no_show | finals_no_show | unpaid_membership | manual"
+        string reason "no_show | finals_no_show | unpaid_membership | name_change | manual"
         string note "nullable"
         bigint created_by FK "users"
     }

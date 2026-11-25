@@ -35,4 +35,24 @@ class Player extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function goals(): HasMany
+    {
+        return $this->hasMany(Goal::class);
+    }
+
+    public function cards(): HasMany
+    {
+        return $this->hasMany(Card::class);
+    }
+
+    public function charges(): HasMany
+    {
+        return $this->hasMany(Charge::class);
+    }
+
+    public function suspensions(): HasMany
+    {
+        return $this->hasMany(Suspension::class);
+    }
 }
